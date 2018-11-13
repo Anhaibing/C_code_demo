@@ -1,0 +1,10 @@
+Finally, this code demo is for my work within "C" language;
+
+It contains some moduses:
+	1.usage();
+	2.log level;
+	3.main \ init \ run \ destory \ return;
+	4.thread function;
+	5.time func;
+	6.socket function;
+	7.epoll function;
