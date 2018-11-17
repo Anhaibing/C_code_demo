@@ -8,7 +8,11 @@ static FILE *out_file = NULL;
 
 int MSG_DEBUG_LEVEL = MSG_INFO;
 
+<<<<<<< HEAD
 void anbin_printf (int level, const char *fmt, ...) {
+=======
+void anbin_printf (int level, const char *fmt) {
+>>>>>>> 9e5021e7d20ffe6d69a78d4e920dcb07be5b1b84
 	va_list ap;
 	va_start (ap, fmt);
 	if (level > MSG_DEBUG_LEVEL) {
