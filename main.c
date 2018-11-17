@@ -4,6 +4,9 @@
 #include <error.h>
 #include <fcntl.h>
 
+#include "debug.h"
+#include "common.h"
+
 #define VERSION_STR "1.1_devel"
 
 static void show_version (void) {
@@ -48,6 +51,7 @@ static void usage (void) {
 int main (int argc, char * argv[]) {
 
 	int c, debug = 0;
+	const char *log_file = NULL;
 	for (;;) {
 		c = getopt (argc, argv, "b:Bde:f:hKP:Ttu:g:G:v::");
 		if (c < 0) break;
@@ -55,11 +59,20 @@ int main (int argc, char * argv[]) {
 			case 'h':
 				usage();
 				break;
+			case 'f':
+				log_file = optarg;
+				printf ("haha!\n");
+				break;
 			default:
 				usage();
 				break;
 		}
 	}
+
+	if (log_file)
+		anbin_debug_open_file (log_file);
+	else
+		//anbin_debug_output_stdout ();
 
 	return 0;
 }
