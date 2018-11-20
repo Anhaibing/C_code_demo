@@ -10,7 +10,7 @@ TARGET = anbin
 OBJECTS :=  $(patsubst %.c, %.o, $(wildcard *.c))
 LIBS +=
 LDFLAGS +=
-CFLAGS += -I$(DIR_INC) -02
+CFLAGS += -I$(DIR_INC) -02 -g -DCONFIG_DEBUG_FILE
 
 DIR_INC =
 DIR_LIB =

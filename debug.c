@@ -24,13 +24,15 @@ void anbin_printf (int level, const char *fmt, ...) {
 }
 
 int anbin_debug_open_file (const char *path) {
+	printf ("start open log file !\n");
 	if (!path) return 0;
-	out_file = fopen (path, 'a');
+	out_file = fopen (path, "a");
 	if (out_file == NULL) {
 		anbin_printf (MSG_ERROR, "_debug_open_file: failed open"
 				"output file, use standard output");
 		return -1;
 	}
+	printf ("open log file ok !\n");
 
 	return 0;
 
