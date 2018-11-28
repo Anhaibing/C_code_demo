@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "common.h"
 #include "timefunc.h"
+#include "slog.h"
 
 #define VERSION_STR "1.1_devel"
 
@@ -82,6 +83,10 @@ int main (int argc, char * argv[]) {
 #endif
 
 	timefunc();
+	log_init("111100", NULL);
+	err("ok err\n");
+	war("ok war\n");
+	dbg("ok dbg\n");
 
 	return 0;
 }
