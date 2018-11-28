@@ -6,6 +6,7 @@
 
 #include "debug.h"
 #include "common.h"
+#include "timefunc.h"
 
 #define VERSION_STR "1.1_devel"
 
@@ -79,6 +80,8 @@ int main (int argc, char * argv[]) {
 #else
 		//anbin_debug_output_stdout ();
 #endif
+
+	timefunc();
 
 	return 0;
 }
