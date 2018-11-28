@@ -12,7 +12,6 @@ struct timeval tvs;
  **/
 
 void timer4handle(int type, long seconds) {
-	int i = 0;
 	struct timeval wait_time;
 	gettimeofday(&tvs, 0);
 	switch(type) {

@@ -53,9 +53,6 @@ static void usage (void) {
 int main (int argc, char * argv[]) {
 
 	int c, debug = 0;
-#ifdef CONFIG_DEBUG_FILE
-	const char *log_file = NULL;
-#endif
 	for (;;) {
 		c = getopt (argc, argv, "b:Bde:f:hKP:Ttu:g:G:v::");
 		if (c < 0) break;
@@ -64,29 +61,27 @@ int main (int argc, char * argv[]) {
 				usage();
 				break;
 #ifdef CONFIG_DEBUG_FILE
+			case 'd':
+				log_init(optarg, NULL);
+				break;
 			case 'f':
-				log_file = optarg;
+				log_init(NULL, optarg);
 				break;
 #endif
 			default:
-				usage();
-				break;
+				printf("Please read help for using!\n");
+				return -1;
 		}
 	}
-#ifdef CONFIG_DEBUG_FILE
-
-	if (log_file)
-		anbin_debug_open_file (log_file);
-	else
-#else
-		//anbin_debug_output_stdout ();
-#endif
 
 	timefunc();
-	log_init("111100", NULL);
+
+	raw("on raw\n");
 	err("ok err\n");
 	war("ok war\n");
+	inf("ok inf\n");
 	dbg("ok dbg\n");
+	trc("ok trc\n");
 
 	return 0;
 }

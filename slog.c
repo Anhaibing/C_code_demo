@@ -22,16 +22,19 @@ void get_time_ms(char *ts, int size) {
 
 int log_init(char *ctrl, char *path) {
 	if (ctrl) {
+		printf("ctrl ls %s\n", ctrl);
 		strncpy(log_ctrl_set, ctrl, cmp1(sizeof(log_ctrl_set), strlen(ctrl)));
 	}
 	if (path) {
+		printf("path ls %s\n", path);
 		pthread_mutex_lock (&line_lock);
-		if (!(fp = fopen(path, 'a'))) {
+		if (!(fp = fopen(path, "a"))) {
 			printf ("fopen %s failed, error = %d\n", path, errno);
 			fp = stdout;
 		}
 		pthread_mutex_unlock(&line_lock);
 	}
+	return 0;
 }
 
 inline void slog(log_type_t n,
@@ -53,6 +56,25 @@ inline void slog(log_type_t n,
 		vfprintf(fp, fmt, args);
 		va_end(args);
 		fprintf(fp, "\n");
+		if (lock)
+			pthread_mutex_unlock(&line_lock);
+	}
+}
+
+inline void raw_log(log_type_t n,
+		char lock,
+		char *log_ctrl_set,
+		const char *fmt,
+		...) {
+	if ('1' == log_ctrl_set[n]) {
+		if (lock)
+			pthread_mutex_lock(&line_lock);
+		if (!fp)
+			fp = stdout;
+		va_list args;
+		va_start(args, fmt);
+		vfprintf(fp, fmt, args);
+		va_end(args);
 		if (lock)
 			pthread_mutex_unlock(&line_lock);
 	}
