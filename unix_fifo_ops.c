@@ -1,8 +1,6 @@
 #include <platform.h>
 #include "unix_fifo_ops.h"
 
-
-
 int unix_fifo_ops_init (unixFifoOps_t* ptr) {
 	if (ptr->needlock)
 		pthread_mutex_lock (&ptr->mtx);
@@ -34,4 +32,51 @@ unixFifoOps_t* unix_fifo_ops_create (const char *path, char needlock) {
 	}
 
 	return ptr;
+}
+
+ssize_t unix_fifo_ops_read (unixFifoOps_t* ptr, char *buf, size_t size) {
+	ssize_t ret = un_read (ptr->fd, buf, size);
+	if (ret < 0)
+		return -1;
+	return ret;
+}
+
+ssize_t unix_fifo_ops_write (unixFifoOps_t* ptr, char *buf, size_t size) {
+	if (ptr->needlock)
+		pthread_mutex_lock (&ptr->mtx);
+	char *widx = buf;
+	size_t remSize = size;
+	ssize_t ret = 0;
+
+	for (;remSize < PIPE_BUF;) {
+		ret = un_write (ptr->fd, widx, remSize);
+		if (ret < 0)
+			goto exit;
+		remSize -= PIPE_BUF;
+		widx += PIPE_BUF;
+	}
+
+	ret = un_write (ptr->fd, widx, remSize);
+	if (ret < 0)
+		goto exit;
+exit:
+	if (ptr->needlock)
+		pthread_mutex_unlock(&ptr->mtx);
+	return ret;
+}
+
+int unix_fifo_ops_destory (unixFifoOps_t* ptr) {
+	if (ptr->needlock)
+		pthread_mutex_lock (&ptr->mtx);
+	int ret = un_close (ptr->fd);
+	pthread_mutex_t* pMtx = &ptr->mtx;
+	char needlock = ptr->needlock;
+	free(ptr);
+	ptr = NULL;
+exit:
+	if (needlock) {
+		pthread_mutex_unlock (pMtx);
+		pthread_mutex_destory (pMtx);
+	}
+	return ret;
 }
