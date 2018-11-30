@@ -1,5 +1,6 @@
-#include <platform.h>
 #include "unix_fifo_ops.h"
+#include "fd_op.h"
+
 
 int unix_fifo_ops_init (unixFifoOps_t* ptr) {
 	if (ptr->needlock)
@@ -9,7 +10,7 @@ int unix_fifo_ops_init (unixFifoOps_t* ptr) {
 		mkfifo (ptr->path, 0666);
 		fd = un_open (ptr->path, O_RDWR|O_EXCL, 0666);
 		if (fd < 0) {
-			err("open %s failed!\n", ptr->path);
+			//err("open %s failed!\n", ptr->path);
 			return fd;
 		}
 	}
@@ -27,7 +28,7 @@ unixFifoOps_t* unix_fifo_ops_create (const char *path, char needlock) {
 		pthread_mutex_init (&(ptr->mtx), NULL);
 	ptr->fd = unix_fifo_ops_init (ptr);
 	if (ptr->fd < 0) {
-		err("unix_fifo_oops_init failed!\n");
+		//err("unix_fifo_oops_init failed!\n");
 		return NULL;
 	}
 
@@ -76,7 +77,7 @@ int unix_fifo_ops_destory (unixFifoOps_t* ptr) {
 exit:
 	if (needlock) {
 		pthread_mutex_unlock (pMtx);
-		pthread_mutex_destory (pMtx);
+		pthread_mutex_destroy (pMtx);
 	}
 	return ret;
 }

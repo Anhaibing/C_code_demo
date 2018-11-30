@@ -11,12 +11,12 @@ typedef enum log_type_t {
 	_DBG,
 	_TRC,
 	MAX_TYPE
-} log_type_t;
+}log_type_t;
 
 typedef struct log_ctrl_t {
 	char *name;
 	char *color;
-} log_ctrl_t;
+}log_ctrl_t;
 
 extern char log_ctrl_set[MAX_TYPE+1];
 
@@ -75,9 +75,6 @@ void raw_log (log_type_t,
 #define inf_t(x...)	tlog(_INF, 0, x);
 #define dbg_t(x...)	tlog(_DBG, 0, x);
 #define trc_t(x...)	tlog(_TRC, 0, x);
-
-#define cmp1(x, y) ((x)<(y)?(x):(y))
-
 
 
 

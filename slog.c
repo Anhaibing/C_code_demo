@@ -1,4 +1,6 @@
 #include "slog.h"
+#include "misc.h"
+
 
 log_ctrl_t logCtrlArray[MAX_TYPE] = {
 	[_ERR] = {"ERR"		,Hred	},
@@ -23,7 +25,7 @@ void get_time_ms(char *ts, int size) {
 int log_init(char *ctrl, char *path) {
 	if (ctrl) {
 		printf("ctrl ls %s\n", ctrl);
-		strncpy(log_ctrl_set, ctrl, cmp1(sizeof(log_ctrl_set), strlen(ctrl)));
+		strncpy(log_ctrl_set, ctrl, ANBIN_MIN(sizeof(log_ctrl_set), strlen(ctrl)));
 	}
 	if (path) {
 		printf("path ls %s\n", path);

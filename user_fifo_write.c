@@ -3,6 +3,7 @@
 #include "user_fifo.h"
 #include "unix_fifo_ops.h"
 #include "slog.h"
+#include "misc.h"
 
 unixFifoOps_t *user_fifo_write_init (const char *path) {
 	unixFifoOps_t* ptr = unix_fifo_ops_create (path, 0);
@@ -59,13 +60,13 @@ int user_fifo_write_fmt (unixFifoOps_t* ptr, const char *fmt, ...) {
 	return 0;
 }
 
-int user_fifo_write_fmt_len (unixFifoOps_t* ptr, siez_t len, const char *fmt, ...) {
+int user_fifo_write_fmt_len (unixFifoOps_t* ptr, size_t len, const char *fmt, ...) {
 	char buf[1024] = FMT_PREFIX;
 	char *contex = buf + FMT_PREFIX_LEN;
 	size_t  availableSize = sizeof (buf) - FMT_PREFIX_LEN - FMT_SUBFFIX_LEN -1;
 	va_list args;
 	va_start (args, fmt);
-	ssize_t ret = vsnprintf (contex, availableSize, fmt, args);	//??
+	ssize_t ret = vsnprintf (contex, ANBIN_MIN(availableSize, len) , fmt, args);	//??
 	if (ret <= 0) {
 		err ("vsnprintf err!");
 		return -1;
