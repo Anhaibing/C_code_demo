@@ -54,7 +54,7 @@ int main (int argc, char * argv[]) {
 
 	int c, debug = 0;
 	for (;;) {
-		c = getopt (argc, argv, "b:Bde:f:hKP:Ttu:g:G:v::");
+		c = getopt (argc, argv, "b:d:f:hKP:Ttu:g:G:v::");
 		if (c < 0) break;
 		switch (c) {
 			case 'h':
