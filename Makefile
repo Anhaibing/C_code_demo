@@ -9,8 +9,8 @@ endif
 TARGET = anbin
 OBJECTS :=  $(patsubst %.c, %.o, $(wildcard *.c))
 LIBS +=
-LDFLAGS +=
-CFLAGS += -I$(DIR_INC) -02 -g -DCONFIG_DEBUG_FILE
+LDFLAGS += -lpthread
+CFLAGS += -I$(DIR_INC) -02 -g -DCONFIG_DEBUG_FILE -DUSER_FIFO_TEST
 
 DIR_INC =
 DIR_LIB =

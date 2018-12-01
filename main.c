@@ -4,7 +4,7 @@
 #include <error.h>
 #include <fcntl.h>
 
-#include "debug.h"
+//#include "debug.h"
 #include "common.h"
 #include "timefunc.h"
 #include "slog.h"
@@ -50,6 +50,7 @@ static void usage (void) {
 	exit (1);
 }
 
+
 int main (int argc, char * argv[]) {
 
 	int c, debug = 0;
@@ -75,13 +76,9 @@ int main (int argc, char * argv[]) {
 	}
 
 	timefunc();
-
-	raw("on raw\n");
-	err("ok err\n");
-	war("ok war\n");
-	inf("ok inf\n");
-	dbg("ok dbg\n");
-	trc("ok trc\n");
+#ifdef USER_FIFO_TEST
+	user_fifo_test ();
+#endif
 
 	return 0;
 }

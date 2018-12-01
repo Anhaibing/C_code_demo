@@ -16,6 +16,7 @@
 
 #define ANBIN_MIN(x, y) ((x)<(y)?(x):(y))
 #define FREE(x) if(x){free(x);x = NULL;}
+#define ADD_HANDLE_ITEM(name, args) {#name, name##_handle, args},
 
 char** argl_to_argv (char arg1[], int *pArgc);
 
