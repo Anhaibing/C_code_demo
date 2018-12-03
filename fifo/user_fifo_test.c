@@ -1,6 +1,6 @@
 #include <pthread.h>
 #include "user_fifo_test.h"
-#include "misc.h"
+#include "../misc.h"
 
 int cmd_pipe[2] = {-1, -1};
 pthread_t thread[2];

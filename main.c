@@ -9,6 +9,8 @@
 #include "timefunc.h"
 #include "slog.h"
 
+#include "fifo/user_fifo_test.h"
+
 #define VERSION_STR "1.1_devel"
 
 static void show_version (void) {
@@ -53,7 +55,8 @@ static void usage (void) {
 
 int main (int argc, char * argv[]) {
 
-	int c, debug = 0;
+	int c;
+
 	for (;;) {
 		c = getopt (argc, argv, "b:d:f:hKP:Ttu:g:G:v::");
 		if (c < 0) break;

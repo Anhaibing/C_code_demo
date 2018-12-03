@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "user_fifo.h"
 #include "unix_fifo_ops.h"
-#include "slog.h"
-#include "misc.h"
+#include "../misc.h"
+#include "../fd_op.h"
 
 unixFifoOps_t *user_fifo_write_init (const char *path) {
 	unixFifoOps_t* ptr = unix_fifo_ops_create (path, 0);

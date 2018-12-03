@@ -2,7 +2,7 @@
 #define _SLOG_H_ 1
 #include "com_log.h"
 
-typedef enum log_type_t {
+typedef enum log_type {
 	MIN_TYPE = -1,
 	_RAW,
 	_ERR,

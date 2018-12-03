@@ -4,13 +4,24 @@ endif
 
 ifndef CFLAGS
 	CFLAGS=-MMD -O2 -Wall -g
+else
+	CFLAGS += -I$(DIR_INC) -O2 -g -DCONFIG_DEBUG_FILE -DUSER_FIFO_TEST
 endif
 
 TARGET = anbin
-OBJECTS :=  $(patsubst %.c, %.o, $(wildcard *.c))
+FIFO_DIR = fifo/
+
+SRC_DIR +=  $(wildcard *.c)
+SRC_DIR +=  $(wildcard $(FIFO_DIR)*.c)
+
+INC_DIR += $(wildcard *.h)
+INC_DIR += $(wildcard $(FIFO_DIR)*.h)
+
+OBJECTS :=  $(patsubst %.c, %.o, $(SRC_DIR))
+
 LIBS +=
 LDFLAGS += -lpthread
-CFLAGS += -I$(DIR_INC) -02 -g -DCONFIG_DEBUG_FILE -DUSER_FIFO_TEST
+
 
 DIR_INC =
 DIR_LIB =
@@ -19,13 +30,13 @@ all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
 	@echo "Start Building $@ ..."
-	$(CC) -o $@ $^ $(LDFLAGS) $(LIBS)
+	$(CC) -o $@ $^ $(LDFLAGS) $(LIBS) $(INC_DIR)
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
+#$(OBJECTS)/%.o: $(OBJECTS)/%.c $(INC_DIR)
+#	$(CC) -o $@ -c $<  $(CFLAGS) 
 
 clean:
-	rm -f *.o *.d $(TARGET)
+	rm -f *.o *.d $(TARGET) $(FIFO_DIR)*.o  $(FIFO_DIR)*.d
 
 .PHONY: clean
 

@@ -1,5 +1,6 @@
 #include "unix_fifo_ops.h"
-#include "fd_op.h"
+#include "../fd_op.h"
+#include <stdlib.h>
 
 
 int unix_fifo_ops_init (unixFifoOps_t* ptr) {
@@ -14,6 +15,8 @@ int unix_fifo_ops_init (unixFifoOps_t* ptr) {
 			return fd;
 		}
 	}
+
+	return 0;
 }
 
 unixFifoOps_t* unix_fifo_ops_create (const char *path, char needlock) {
@@ -22,7 +25,7 @@ unixFifoOps_t* unix_fifo_ops_create (const char *path, char needlock) {
 		err ("calloc failed");
 		return NULL;
 	}
-	ptr->path = path;
+	ptr->path = (char *)path;
 	ptr->needlock = needlock;
 	if (needlock)
 		pthread_mutex_init (&(ptr->mtx), NULL);
@@ -52,15 +55,15 @@ ssize_t unix_fifo_ops_write (unixFifoOps_t* ptr, char *buf, size_t size) {
 	for (;remSize < PIPE_BUF;) {
 		ret = un_write (ptr->fd, widx, remSize);
 		if (ret < 0)
-			goto exit;
+			goto quit;
 		remSize -= PIPE_BUF;
 		widx += PIPE_BUF;
 	}
 
 	ret = un_write (ptr->fd, widx, remSize);
 	if (ret < 0)
-		goto exit;
-exit:
+		goto quit;
+quit:
 	if (ptr->needlock)
 		pthread_mutex_unlock(&ptr->mtx);
 	return ret;
@@ -74,7 +77,7 @@ int unix_fifo_ops_destory (unixFifoOps_t* ptr) {
 	char needlock = ptr->needlock;
 	free(ptr);
 	ptr = NULL;
-exit:
+
 	if (needlock) {
 		pthread_mutex_unlock (pMtx);
 		pthread_mutex_destroy (pMtx);
