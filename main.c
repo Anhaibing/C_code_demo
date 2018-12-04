@@ -5,9 +5,9 @@
 #include <fcntl.h>
 
 //#include "debug.h"
-#include "common.h"
+#include "common/common.h"
 #include "timefunc.h"
-#include "slog.h"
+#include "log/slog.h"
 
 #include "fifo/user_fifo_test.h"
 

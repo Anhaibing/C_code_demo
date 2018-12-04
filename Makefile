@@ -10,12 +10,14 @@ endif
 
 TARGET = anbin
 FIFO_DIR = fifo/
+LOG_DIR = log/
+COM_DIR = common/
 
 SRC_DIR +=  $(wildcard *.c)
-SRC_DIR +=  $(wildcard $(FIFO_DIR)*.c)
+SRC_DIR +=  $(wildcard $(FIFO_DIR)*.c $(LOG_DIR)*.c $(COM_DIR)*.c)
 
 INC_DIR += $(wildcard *.h)
-INC_DIR += $(wildcard $(FIFO_DIR)*.h)
+INC_DIR += $(wildcard $(FIFO_DIR)*.h $(LOG_DIR)*.h $(COM_DIR)*.h)
 
 OBJECTS :=  $(patsubst %.c, %.o, $(SRC_DIR))
 
@@ -36,7 +38,7 @@ $(TARGET): $(OBJECTS)
 #	$(CC) -o $@ -c $<  $(CFLAGS) 
 
 clean:
-	rm -f *.o *.d $(TARGET) $(FIFO_DIR)*.o  $(FIFO_DIR)*.d
+	rm -f *.o *.d $(TARGET) $(FIFO_DIR)*.o  $(FIFO_DIR)*.d $(LOG_DIR)*.o  $(LOG_DIR)*.d $(COM_DIR)*.o $(COM_DIR).d
 
 .PHONY: clean
 

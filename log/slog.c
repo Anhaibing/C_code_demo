@@ -1,5 +1,5 @@
 #include "slog.h"
-#include "misc.h"
+#include "../common/misc.h"
 
 
 log_ctrl_t logCtrlArray[MAX_TYPE] = {

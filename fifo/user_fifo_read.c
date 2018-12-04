@@ -7,8 +7,8 @@
 
 
 #include "user_fifo.h"
-#include "../slog.h"
-#include "../misc.h"
+#include "../log/slog.h"
+#include "../common/misc.h"
 
 int user_fifo_read_init(fifo_cmd_t *pArgs) {
 	switch (pArgs->type) {

@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 //#include "misc.h"
-#include "slog.h"
+#include "../log/slog.h"
 
 #define un_open(path,flags,mode) ({\
 	int fd=0;\
